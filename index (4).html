@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دفتر النقوط</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f7f2e8;--card:#fff;--ink:#1f2a25;--mut:#7d8a82;--acc:#0f6b52;--acc2:#e3f1ea;--gold:#c9a24b;--bad:#b4472f;--line:#ece5d6;--sh:0 8px 24px rgba(31,42,37,.08)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1714;--card:#17211d;--ink:#eee9dc;--mut:#8fa097;--acc:#4fc79e;--acc2:#1d3029;--gold:#e0bb62;--bad:#ef8b73;--line:#25332d;--sh:0 8px 24px rgba(0,0,0,.35)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,Cairo,system-ui,"Segoe UI",Tahoma,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px 120px}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:11px 16px;transition:transform .12s}
+button:active{transform:scale(.96)}
+.btn{background:var(--acc);color:#fff;font-weight:700}
+.ghost{background:transparent;color:var(--mut);border:1px solid var(--line)}
+.login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#fff;background:radial-gradient(circle at 18% 12%,rgba(224,187,98,.28),transparent 42%),radial-gradient(circle at 88% 92%,rgba(79,199,158,.22),transparent 46%),linear-gradient(160deg,#0a3a2d,#0f6b52 58%,#082a21)}
+.logo{width:96px;height:96px;border-radius:30px;display:grid;place-items:center;margin-bottom:20px;background:rgba(255,255,255,.1);border:1px solid rgba(224,187,98,.55);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.login h1{font-size:36px;margin:0 0 10px;letter-spacing:.5px}
+.tag{opacity:.82;margin:0 0 30px;line-height:1.9;max-width:290px;font-size:16px}
+.gbtn{display:flex;align-items:center;gap:12px;background:#fff;color:#222;font-weight:700;padding:15px 24px;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.3);font-size:16px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:28px;max-width:320px}
+.chips span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:7px 13px;border-radius:20px;font-size:13px}
+.err{color:#ffd2c6;font-size:14px;margin-top:14px;max-width:300px}
+.head{margin:0 -14px;padding:calc(20px + env(safe-area-inset-top,0px)) 20px 74px;color:#fff;border-radius:0 0 34px 34px;background:radial-gradient(circle at 12% 0,rgba(224,187,98,.3),transparent 45%),linear-gradient(160deg,#0a3a2d,#0f6b52)}
+.head .row{justify-content:space-between}
+.head small{opacity:.75;font-size:13px}
+.head h2{margin:2px 0 0;font-size:21px}
+.out{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 14px;font-size:13px;border-radius:12px}
+.balance{margin:-50px 6px 0;position:relative;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px 20px;box-shadow:var(--sh);border-top:3px solid var(--gold)}
+.balance small{color:var(--mut);font-size:14px}
+.balance b{display:block;font-size:34px;color:var(--acc);margin:2px 0;font-weight:800}
+.mini{color:var(--mut);font-size:13px}
+.search{margin:18px 0 12px}
+input,textarea{font:inherit;width:100%;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);outline:0}
+input:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc2)}
+.search input{padding-right:46px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%238a968f' stroke-width='2' stroke-linecap='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
+.tabs{display:flex;gap:4px;background:var(--acc2);padding:4px;border-radius:16px}
+.tab{flex:1;background:transparent;color:var(--mut);padding:9px;border-radius:12px;font-weight:700;font-size:14px}
+.tab.on{background:var(--card);color:var(--acc);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.item{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin:12px 0;box-shadow:var(--sh)}
+.row{display:flex;align-items:center;gap:12px}
+.av{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:800;font-size:19px;background:hsl(var(--h) 45% 50%/.16);color:hsl(var(--h) 60% 45%);flex:none}
+.name{font-weight:700;font-size:17px;flex:1}
+.amt{font-weight:800;color:var(--acc);font-size:18px;white-space:nowrap}
+.item.paid{opacity:.62}
+.item.paid .amt{text-decoration:line-through;color:var(--mut)}
+.meta{color:var(--mut);font-size:13px;margin:9px 2px 0}
+.acts{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.acts button{padding:7px 13px;font-size:13px;background:var(--acc2);color:var(--acc);font-weight:700;border-radius:12px}
+.acts .del{background:transparent;color:var(--bad);margin-inline-start:auto}
+.empty{text-align:center;color:var(--mut);padding:40px 10px;line-height:1.9}
+.fab{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:20px;width:62px;height:62px;border-radius:50%;padding:0;font-size:32px;line-height:1;color:#fff;background:linear-gradient(145deg,#12805f,#0a3a2d);border:2px solid var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;z-index:5}
+.sheet.show{display:flex}
+.sheet form{background:var(--bg);width:100%;max-width:560px;margin:0 auto;padding:12px 18px calc(20px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;display:grid;gap:11px}
+.sheet form::before{content:"";width:44px;height:5px;border-radius:5px;background:var(--line);margin:0 auto 6px}
+#formTitle{font-size:19px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="loginView" class="login hide">
+  <div class="logo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e0bb62" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 21.5V5.5"/><path d="M12 8v5m-2.5-2.5h5"/></svg></div>
+  <h1>دفتر النقوط</h1>
+  <p class="tag">كل نقطة مسجّلة، وكل جميلة تتردّ في وقتها.<br>دفترك في جيبك، وبحث في ثواني.</p>
+  <button class="gbtn" id="loginBtn"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>الدخول بحساب Google</button>
+  <div class="chips"><span>سجّل كل نقطة</span><span>ابحث في ثواني</span><span>ما تنساش دين</span></div>
+  <div class="err" id="loginErr"></div>
+</div>
+
+<div id="appView" class="hide">
+  <div class="head"><div class="row"><div><small>أهلاً بيك</small><h2 id="who"></h2></div><button class="out" id="outBtn">خروج</button></div></div>
+  <div class="balance"><small>لسه عليّا</small><b id="owe">0</b><div class="mini"><span id="cnt">0</span> اسم في الدفتر</div></div>
+  <div class="search"><input id="q" type="search" placeholder="ابحث باسم اللي نقّطك..."></div>
+  <div class="tabs">
+    <button class="tab on" data-f="all">الكل</button>
+    <button class="tab" data-f="open">عليّا</button>
+    <button class="tab" data-f="paid">اتردّت</button>
+  </div>
+  <div id="list"></div>
+</div>
+</div>
+
+<button class="fab hide" id="fab" aria-label="إضافة">+</button>
+
+<div class="sheet" id="sheet">
+  <form id="form">
+    <b id="formTitle">نقطة جديدة</b>
+    <input id="fName" placeholder="اسم اللي نقّطك" required>
+    <input id="fAmt" placeholder="المبلغ" inputmode="numeric" required>
+    <input id="fDate" type="date">
+    <textarea id="fNote" rows="2" placeholder="ملاحظة (اختياري)، مثلا: فرح ابني"></textarea>
+    <div class="row"><button class="btn" style="flex:1" type="submit">حفظ</button><button class="ghost" type="button" id="cancel">إلغاء</button></div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyALRV4EGTMpZZWT0KdA8hQRMNZbXtKBYjQ",
+  authDomain: "uuqta-ledger.firebaseapp.com",
+  projectId: "uuqta-ledger",
+  storageBucket: "uuqta-ledger.firebasestorage.app",
+  messagingSenderId: "371761017755",
+  appId: "1:371761017755:web:e9afd54d0778832435273e"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(), db = firebase.firestore();
+const $ = id => document.getElementById(id);
+let col = null, unsub = null, entries = [], editId = null, filter = 'all';
+
+const norm = s => (s || '').toString().toLowerCase()
+  .replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا')
+  .replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
+const toNum = s => Number(String(s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d.]/g, ''));
+const money = n => n.toLocaleString('ar-EG') + ' جنيه';
+const today = () => new Date().toISOString().slice(0, 10);
+
+$('loginBtn').onclick = async () => {
+  $('loginErr').textContent = '';
+  try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+  catch (e) {
+    $('loginErr').textContent = e.code === 'auth/unauthorized-domain'
+      ? 'الدومين ده لسه ما اتضافش في Firebase (Authentication ← Settings ← Authorized domains).'
+      : 'ما قدرناش ندخل: ' + (e.code || e.message);
+  }
+};
+$('outBtn').onclick = () => auth.signOut();
+
+auth.onAuthStateChanged(u => {
+  if (unsub) { unsub(); unsub = null; }
+  $('loginView').classList.toggle('hide', !!u);
+  $('appView').classList.toggle('hide', !u);
+  $('fab').classList.toggle('hide', !u);
+  if (!u) return;
+  $('who').textContent = u.displayName || u.email || '';
+  col = db.collection('users').doc(u.uid).collection('entries');
+  unsub = col.orderBy('date', 'desc').onSnapshot(
+    s => { entries = s.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
+    e => { $('list').innerHTML = '<div class="empty">مش قادر يقرا الدفتر: ' + e.code + '</div>'; }
+  );
+});
+
+function render() {
+  const q = norm($('q').value);
+  const open = entries.filter(e => !e.paid);
+  $('owe').textContent = money(open.reduce((a, e) => a + (e.amount || 0), 0));
+  $('cnt').textContent = entries.length.toLocaleString('ar-EG');
+  const rows = entries.filter(e =>
+    (!q || norm(e.name).includes(q)) &&
+    (filter === 'all' || (filter === 'open' ? !e.paid : e.paid)));
+  const list = $('list'); list.innerHTML = '';
+  if (!rows.length) { list.innerHTML = '<div class="empty">' + (entries.length ? 'مفيش نتايج' : 'دفترك فاضي.<br>اضغط + وسجّل أول نقطة') + '</div>'; return; }
+  rows.forEach(e => {
+    const d = document.createElement('div');
+    d.className = 'item' + (e.paid ? ' paid' : '');
+    const r = document.createElement('div'); r.className = 'row';
+    const n = document.createElement('span'); n.className = 'name'; n.textContent = e.name;
+    const a = document.createElement('span'); a.className = 'amt'; a.textContent = money(e.amount || 0);
+    const av = document.createElement('span'); av.className = 'av'; av.textContent = [...e.name][0] || '؟'; av.style.setProperty('--h', [...e.name].reduce((x, c) => (x * 31 + c.charCodeAt(0)) % 360, 7)); r.append(av, n, a);
+    const m = document.createElement('div'); m.className = 'meta';
+    m.textContent = (e.date ? new Date(e.date).toLocaleDateString('ar-EG') : '') + (e.note ? ' · ' + e.note : '') + (e.paid ? ' · اتردّت' : '');
+    const acts = document.createElement('div'); acts.className = 'acts';
+    const b1 = document.createElement('button'); b1.textContent = e.paid ? 'رجّعها عليّا' : 'اتردّت';
+    b1.onclick = () => col.doc(e.id).update({ paid: !e.paid });
+    const b2 = document.createElement('button'); b2.textContent = 'تعديل'; b2.onclick = () => openForm(e);
+    const b3 = document.createElement('button'); b3.className = 'del'; b3.textContent = 'حذف';
+    b3.onclick = () => { if (confirm('تحذف ' + e.name + '؟')) col.doc(e.id).delete(); };
+    acts.append(b1, b2, b3);
+    d.append(r, m, acts); list.append(d);
+  });
+}
+
+$('q').oninput = render;
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on'); filter = t.dataset.f; render();
+});
+
+function openForm(e) {
+  editId = e ? e.id : null;
+  $('formTitle').textContent = e ? 'تعديل' : 'نقطة جديدة';
+  $('fName').value = e ? e.name : '';
+  $('fAmt').value = e ? e.amount : '';
+  $('fDate').value = e ? e.date : today();
+  $('fNote').value = e ? (e.note || '') : '';
+  $('sheet').classList.add('show');
+  setTimeout(() => $('fName').focus(), 50);
+}
+const closeForm = () => $('sheet').classList.remove('show');
+$('fab').onclick = () => openForm(null);
+$('cancel').onclick = closeForm;
+$('sheet').onclick = ev => { if (ev.target === $('sheet')) closeForm(); };
+
+$('form').onsubmit = async ev => {
+  ev.preventDefault();
+  const amount = toNum($('fAmt').value);
+  if (!amount) { alert('اكتب المبلغ بالأرقام'); return; }
+  const data = { name: $('fName').value.trim(), amount, date: $('fDate').value || today(), note: $('fNote').value.trim() };
+  try {
+    if (editId) await col.doc(editId).update(data);
+    else await col.add({ ...data, paid: false });
+    closeForm();
+  } catch (e) { alert('ما اتحفظش: ' + (e.code || e.message)); }
+};
+</script>
+</body>
+</html>
